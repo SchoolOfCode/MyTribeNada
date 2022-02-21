@@ -26,6 +26,10 @@ const chores = [
 const CardsComponentsProps = {};
 
 function Cards(onClicking) {
+   const [chore, setChore] = useState("")
+   const [familyMember, setFamilyMember]= useState("")
+    const [dueDate, setDueDate] = useState("")
+
     console.log("this is what is passed", onClicking)
   //   const [isSelected, setSelection] = useState(false);
   return (

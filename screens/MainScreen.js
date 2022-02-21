@@ -12,23 +12,24 @@ import {
 } from "react-native";
 import { Text, Card, Button, Icon } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import {auth} from "firebase/auth";
+import {auth} from "react-native-firebase/auth";
 
 function HomePage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
 
-  function handleSignup() {
+  const handleSignup =  () => {
+      console.log("Button clicked")
     auth.createUserWithEmailAndPassword(email, password)
      auth.then((userCredentials) => {
         const user = userCredentials.user;
-        console.log(user.email);
+        console.log("this is email", user.email);
       })
       .catch(error => alert(error.message))
   };
   return (
-    <KeyboardAvoidingView style={styles.keyboard} behaviour="padding">
+    <KeyboardAvoidingView style={styles.keyboard} behaviour="position">
       <ScrollView>
         <View style={styles.container}>
           <ImageBackground
