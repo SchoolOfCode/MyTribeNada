@@ -1,37 +1,37 @@
-import  React , {useState } from "react";
+import React, { useState } from "react";
 import { View, ScrollView, StyleSheet, Image, Button } from "react-native";
 import { Text, Card } from "react-native-elements";
-import washDish from "../../assets/washDish.png"
-import vaccum from "../../assets/vaccum.png"
+import washDish from "../../assets/washDish.png";
+import vaccum from "../../assets/vaccum.png";
 import { authentication } from "../../firebase/firebase-config";
-import {db} from "../../firebase/firebase-config"
+import { db } from "../../firebase/firebase-config";
 import { collection, getDocs } from "firebase/firestore/lite";
 
 const CardsComponentsProps = {};
 
 function Cards(onClicking) {
+  const [data, setData] = useState(false);
 
-  const getData = async() =>  getChores(db) {
-    const choresCol = collection (db , 'chores');
+  async function getData() {
+    console.log("This function has been fired");
+    const choresCol = collection(db, "MyTribe");
     const choreSnapshot = await getDocs(choresCol);
-    const choresList = choreSnapshot.docs.map(doc => doc.data());
-    return choresList
- 
- 
+    const choresList = choreSnapshot.docs.map((doc) => doc.data());
+    console.log("This is the data", choresList[0].Description);
+    setData(choresList)
+    return data;
   }
 
-   const [chore, setChore] = useState("")
-   const [familyMember, setFamilyMember]= useState("")
-    const [dueDate, setDueDate] = useState("")
-
-    console.log("this is what is passed", onClicking)
-  //   const [isSelected, setSelection] = useState(false);
   return (
     <View>
-      <ScrollView>
-        <View style={styles.container}>
 
-          {choresList.map((c, i) => {
+      <Button title= "get Data" onPress={getData} />
+      {/* {setData === false ? (
+        <Button title="Get Data" onPress={getData} />
+      ) : (
+
+        <View style={styles.container}>
+          {/* {data.map((c, i) => {
             return (
               <View key={i} style={styles.main}>
                 <Card style={styles.card}>
@@ -39,27 +39,32 @@ function Cards(onClicking) {
                   <Image
                     style={styles.image}
                     resizeMode="cover"
-                    source={c.avatar}
+                    source={c.ImageUrl}
                   />
                   <Text style={styles.fonts} h2>
-                    {c.ChoresTitle}
+                    {c.chores.map((t) => {
+                      return t;
+                    })}
                   </Text>
                   <Text style={styles.fonts} h4>
-                    {c.FamilyMember}
+                    {c.family_member((m) => {
+                      return m;
+                    })}
                   </Text>
                   <Text style={styles.text}>{c.DueDate}</Text>
-                  <Text style={styles.text}>{c.Description}</Text>
-                  <Text style={styles.text}>{c.Completed}</Text>
-                  <Button key = {i}
-                    title="Click to read more" onPress={onClicking.onClicking}
+                  <Text style={styles.text}>
+                    {c.Description.map((m) => {
+                      return m;
+                    })}
+                  </Text>
+                  <Button
+                    key={i}
+                    title="Click to read more"
+                    onPress={onClicking.onClicking}
                   />
-                </Card>
+                </Card> */}
               </View>
-            );
-          })}
-        </View>
-      </ScrollView>
-    </View>
+        
   );
 }
 
@@ -79,12 +84,11 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     marginLeft: 50,
     justifyContent: "center",
-    
   },
   card: {
     flex: 1,
     padding: 10,
-    alignContent: "center"
+    alignContent: "center",
   },
   image: {
     width: 40,
@@ -102,7 +106,6 @@ const styles = StyleSheet.create({
 });
 
 export default Cards;
-
 
 {
   /* <View>

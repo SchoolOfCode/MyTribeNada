@@ -1,14 +1,13 @@
-import { createStackNavigator } from "react-navigation-stack"
-import {createAppContainer} from "react-navigation"
-import ChoresListScreen from "../screens/ChoresList.js"
-import ChoreDetails from "../screens/ChoresDetails.js"
-import HomePage from "../screens/MainScreen.js"
+import { createStackNavigator } from "react-navigation-stack";
+import { createAppContainer } from "react-navigation";
+import ChoresListScreen from "../screens/ChoresList.js";
+import ChoreDetails from "../screens/ChoresDetails.js";
+import HomePage from "../screens/MainScreen.js";
 
-
-const  ChoresNavigator = createStackNavigator({
-    HomePage : HomePage,
-    ChoreList : ChoresListScreen,
-    ChoreDetails: ChoreDetails
-})
+const ChoresNavigator = createStackNavigator({
+  HomePage: { screen: HomePage, params: { info: data} },
+  ChoreList: ChoresListScreen,
+  ChoreDetails: ChoreDetails,
+});
 
 export default createAppContainer(ChoresNavigator);

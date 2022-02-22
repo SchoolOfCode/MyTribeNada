@@ -16,11 +16,26 @@ import {
   signOut,
 } from "firebase/auth";
 import { authentication } from "../firebase/firebase-config";
+import { db } from "../firebase/firebase-config";
+import { collection, getDocs } from "firebase/firestore/lite";
 
 function HomePage(props) {
+  console.log("This is homepage prop", props);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignedin, setIsSignedin] = useState(false);
+  const [data, setData] = useState(false);
+
+  async function getData() {
+    console.log("This DataBase function has been fired");
+    const choresCol = collection(db, "MyTribe");
+    const choreSnapshot = await getDocs(choresCol);
+    const choresList = choreSnapshot.docs.map((doc) => doc.data());
+    setData(choresList);
+    console.log("This is the data recieved:", data);
+    props.navigation.navigate({ routeName: "ChoreList" }, {info: data});
+    return data;
+  }
 
   const SigninUser = () => {
     signInWithEmailAndPassword(authentication, email, password)
@@ -58,46 +73,44 @@ function HomePage(props) {
             <View style={{ paddingBottom: 110, paddingTop: 200 }}>
               <Text style={styles.text}>MyTribe</Text>
             </View>
-
-            <TextInput
-              placeholder="Email"
-              textAlign="center"
-              placeholderTextColor="black"
-              textContentType="emailAddress"
-              onChangeText={(text) => setEmail(text)}
-              value={email}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Password"
-              textAlign="center"
-              placeholderTextColor="black"
-              textContentType="password"
-              onChangeText={(text) => setPassword(text)}
-              value={password}
-              style={styles.input}
-              secureTextEntry={true}
-            />
             {isSignedin === true ? (
-            <View><Button
-              title="Go to your chores"
-              style={{ paddingHorizontal: 100, borderRadius: 10 }}
-              onPress={() => {
-                props.navigation.navigate({ routeName: "ChoreList" });
-              }}
-            />
-              <Button
-                title="Log out"
-                style={{
-                  paddingHorizontal: 100,
-                  padding: 10,
-                  borderRadius: 10,
-                }}
-                onPress={SignOutUser}
-              />
+              <View>
+                <Button
+                  title="Go to your chores"
+                  style={{ paddingHorizontal: 100, borderRadius: 10 }}
+                  onPress={getData}
+                />
+                <Button
+                  title="Log out"
+                  style={{
+                    paddingHorizontal: 100,
+                    padding: 10,
+                    borderRadius: 10,
+                  }}
+                  onPress={SignOutUser}
+                />
               </View>
             ) : (
               <View style={{ paddingTop: 10 }}>
+                <TextInput
+                  placeholder="Email"
+                  textAlign="center"
+                  placeholderTextColor="black"
+                  textContentType="emailAddress"
+                  onChangeText={(text) => setEmail(text)}
+                  value={email}
+                  style={styles.input}
+                />
+                <TextInput
+                  placeholder="Password"
+                  textAlign="center"
+                  placeholderTextColor="black"
+                  textContentType="password"
+                  onChangeText={(text) => setPassword(text)}
+                  value={password}
+                  style={styles.input}
+                  secureTextEntry={true}
+                />
                 <Button
                   title="Log in"
                   style={{
@@ -116,8 +129,6 @@ function HomePage(props) {
                 />
               </View>
             )}
-
-            
           </ImageBackground>
         </View>
       </ScrollView>
