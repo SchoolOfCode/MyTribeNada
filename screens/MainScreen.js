@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import image from "../assets/image.jpeg";
 import {
   StyleSheet,
@@ -26,16 +26,20 @@ function HomePage(props) {
   const [isSignedin, setIsSignedin] = useState(false);
   const [data, setData] = useState(false);
 
-  async function getData() {
-    console.log("This DataBase function has been fired");
-    const choresCol = collection(db, "MyTribe");
-    const choreSnapshot = await getDocs(choresCol);
-    const choresList = choreSnapshot.docs.map((doc) => doc.data());
-    setData(choresList);
-    console.log("This is the data recieved:", data);
-    props.navigation.navigate({ routeName: "ChoreList" }, {info: data});
-    return data;
-  }
+  useEffect(() => {
+    console.log("useEffect has been fired");
+    async function getData() {
+      console.log("This DataBase function has been fired");
+      const choresCol = collection(db, "MyTribe");
+      const choreSnapshot = await getDocs(choresCol);
+      const choresList = choreSnapshot.docs.map((doc) => doc.data());
+      console.log("This is the data recieved:", choresList);
+      return choresList;
+    }
+    const data = getData();
+    setData(data);
+    props.navigation.navigate({ routeName: "ChoreList" });
+  }, [isSignedin]);
 
   const SigninUser = () => {
     signInWithEmailAndPassword(authentication, email, password)
@@ -78,7 +82,9 @@ function HomePage(props) {
                 <Button
                   title="Go to your chores"
                   style={{ paddingHorizontal: 100, borderRadius: 10 }}
-                  onPress={getData}
+                  onPress={props.navigation.navigate({
+                    routeName: "ChoreList",
+                  })}
                 />
                 <Button
                   title="Log out"

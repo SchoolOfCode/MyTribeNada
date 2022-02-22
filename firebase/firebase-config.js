@@ -1,6 +1,6 @@
-import {initializeApp} from "firebase/app"
-import {getAuth} from "firebase/auth"
-import {getFirestore, collection, getDocs} from "firebase/firestore/lite"
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB5ZfZ2zWbZHPQwpxUx1Kaxi_RCmQ2hVBE",
@@ -13,18 +13,14 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app)
-export const authentication = getAuth(app)
+export const db = getFirestore(app);
+export const authentication = getAuth(app);
 
 //Get a list of chores from your database
 
-
-  async function getChores(db) {
-    const choresCol = collection(db, "chores");
-    const choreSnapshot = await getDocs(choresCol);
-    const choresList = choreSnapshot.docs.map((doc) => doc.data());
-    return choresList;
-  }
-
-
-
+async function getChores(db) {
+  const choresCol = collection(db, "chores");
+  const choreSnapshot = await getDocs(choresCol);
+  const choresList = choreSnapshot.docs.map((doc) => doc.data());
+  return choresList;
+}

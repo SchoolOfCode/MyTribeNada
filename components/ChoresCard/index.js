@@ -10,28 +10,10 @@ import { collection, getDocs } from "firebase/firestore/lite";
 const CardsComponentsProps = {};
 
 function Cards(onClicking) {
-  const [data, setData] = useState(false);
-
-  async function getData() {
-    console.log("This function has been fired");
-    const choresCol = collection(db, "MyTribe");
-    const choreSnapshot = await getDocs(choresCol);
-    const choresList = choreSnapshot.docs.map((doc) => doc.data());
-    console.log("This is the data", choresList[0].Description);
-    setData(choresList)
-    return data;
-  }
-
   return (
     <View>
-
-      <Button title= "get Data" onPress={getData} />
-      {/* {setData === false ? (
-        <Button title="Get Data" onPress={getData} />
-      ) : (
-
         <View style={styles.container}>
-          {/* {data.map((c, i) => {
+          { {data.map((c, i) => {
             return (
               <View key={i} style={styles.main}>
                 <Card style={styles.card}>
@@ -62,9 +44,8 @@ function Cards(onClicking) {
                     title="Click to read more"
                     onPress={onClicking.onClicking}
                   />
-                </Card> */}
-              </View>
-        
+                </Card> }
+    </View>
   );
 }
 

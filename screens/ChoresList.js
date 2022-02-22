@@ -1,29 +1,26 @@
 import React from "react";
-import { View, Text, StyleSheet, Button, ImageBackground, } from "react-native";
+import { View, Text, StyleSheet, Button, ImageBackground } from "react-native";
 import Cards from "../components/ChoresCard";
-import image from "../assets/image.jpeg"
+import image from "../assets/image.jpeg";
 
 // let dataRecieved = props.route.params.data
 
 function ChoresListScreen(props) {
-
-const {info} = props.route.params
-console.log(info)
+  //const {info} = props.route.params
+  //console.log(info)
   return (
-    
-      <View style={styles.container}>
-        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-          <Text>Chores List Screen</Text>
-          <View>
-            <Cards 
-              onClicking={() => {
-                props.navigation.navigate({ routeName: "ChoreDetails" });
-              }}
-            />
-          </View>
-        </ImageBackground>
-      </View>
-   
+    <View style={styles.container}>
+      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+        <Text>Chores List Screen</Text>
+        <View>
+          <Cards
+            onClicking={() => {
+              props.navigation.navigate({ routeName: "ChoreDetails" });
+            }}
+          />
+        </View>
+      </ImageBackground>
+    </View>
   );
 }
 
