@@ -4,7 +4,6 @@ import { StyleSheet, Text, View ,ImageBackground} from "react-native";
 import * as Font from "expo-font";
 import ChoresNavigator from "./navigation/ChoresNavigator";
 import image from "./assets/image.jpeg"
-
 import AppLoading from "expo-app-loading";
 import ChoresListScreen from "./screens/ChoresList";
 

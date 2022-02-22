@@ -1,31 +1,25 @@
 import  React , {useState } from "react";
 import { View, ScrollView, StyleSheet, Image, Button } from "react-native";
-import { Text, Card,Icon } from "react-native-elements";
+import { Text, Card } from "react-native-elements";
 import washDish from "../../assets/washDish.png"
 import vaccum from "../../assets/vaccum.png"
-
-const chores = [
-  {
-    ChoresTitle: "Wash dishes",
-    FamilyMember: "Nour Amara",
-    avatar: washDish, 
-    DueDate: "29 / 09 / 2022",
-    Description: "Clean all the dishes in the sink",
-    Completed: true,
-  },
-  {
-    ChoresTitle: "Vaccum",
-    FamilyMember: "Huzaifah Begg",
-    avatar: vaccum,
-    DueDate: "29 / 10 / 2022",
-    Description: "Vaccum your room ",
-    Completed: true,
-  },
-];
+import { authentication } from "../../firebase/firebase-config";
+import {db} from "../../firebase/firebase-config"
+import { collection, getDocs } from "firebase/firestore/lite";
 
 const CardsComponentsProps = {};
 
 function Cards(onClicking) {
+
+  const getData = async() =>  getChores(db) {
+    const choresCol = collection (db , 'chores');
+    const choreSnapshot = await getDocs(choresCol);
+    const choresList = choreSnapshot.docs.map(doc => doc.data());
+    return choresList
+ 
+ 
+  }
+
    const [chore, setChore] = useState("")
    const [familyMember, setFamilyMember]= useState("")
     const [dueDate, setDueDate] = useState("")
@@ -37,7 +31,7 @@ function Cards(onClicking) {
       <ScrollView>
         <View style={styles.container}>
 
-          {chores.map((c, i) => {
+          {choresList.map((c, i) => {
             return (
               <View key={i} style={styles.main}>
                 <Card style={styles.card}>

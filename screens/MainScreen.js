@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
 import image from "../assets/image.jpeg";
 import {
   StyleSheet,
@@ -10,23 +9,42 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
-import { Text, Card, Button, Icon } from "react-native-elements";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import {auth} from "react-native-firebase/auth";
+import { Text, Button } from "react-native-elements";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import { authentication } from "../firebase/firebase-config";
 
 function HomePage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSignedin, setIsSignedin] = useState(false);
 
-
-  const handleSignup =  () => {
-      console.log("Button clicked")
-    auth.createUserWithEmailAndPassword(email, password)
-     auth.then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("this is email", user.email);
+  const SigninUser = () => {
+    signInWithEmailAndPassword(authentication, email, password)
+      .then((re) => {
+        setIsSignedin(true);
       })
-      .catch(error => alert(error.message))
+      .catch((error) => console.log(error));
+  };
+  const SignOutUser = () => {
+    signOut(authentication, email, password)
+      .then((re) => {
+        setIsSignedin(false);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const RegisterUser = () => {
+    console.log("Button clicked");
+    createUserWithEmailAndPassword(authentication, email, password)
+      .then((re) => {
+        console.log(re);
+        setIsSignedin(true);
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <KeyboardAvoidingView style={styles.keyboard} behaviour="position">
@@ -42,10 +60,10 @@ function HomePage(props) {
             </View>
 
             <TextInput
-              placeholder="Username"
+              placeholder="Email"
               textAlign="center"
               placeholderTextColor="black"
-              textContentType="username"
+              textContentType="emailAddress"
               onChangeText={(text) => setEmail(text)}
               value={email}
               style={styles.input}
@@ -58,34 +76,48 @@ function HomePage(props) {
               onChangeText={(text) => setPassword(text)}
               value={password}
               style={styles.input}
-              secureTextEntry
+              secureTextEntry={true}
             />
-            <View style={{ paddingTop: 10 }}>
-             
+            {isSignedin === true ? (
+            <View><Button
+              title="Go to your chores"
+              style={{ paddingHorizontal: 100, borderRadius: 10 }}
+              onPress={() => {
+                props.navigation.navigate({ routeName: "ChoreList" });
+              }}
+            />
+              <Button
+                title="Log out"
+                style={{
+                  paddingHorizontal: 100,
+                  padding: 10,
+                  borderRadius: 10,
+                }}
+                onPress={SignOutUser}
+              />
+              </View>
+            ) : (
+              <View style={{ paddingTop: 10 }}>
                 <Button
                   title="Log in"
-                  backgroundColor="red"
-                  borderColor="black"
-                  style={{ paddingHorizontal: 100, borderRadius: 10 }}
-                />
-                <Button
-                  title="Create Account"
-                  onPress={handleSignup}
                   style={{
                     paddingHorizontal: 100,
                     padding: 10,
                     borderRadius: 10,
                   }}
+                  onPress={SigninUser}
                 />
                 <Button
-                  title="Go to your chores"
+                  title="Create Account"
+                  backgroundColor="red"
+                  borderColor="black"
+                  onPress={RegisterUser}
                   style={{ paddingHorizontal: 100, borderRadius: 10 }}
-                  onPress={() => {
-                    props.navigation.navigate({ routeName: "ChoreList" });
-                  }}
                 />
-             
-            </View>
+              </View>
+            )}
+
+            
           </ImageBackground>
         </View>
       </ScrollView>

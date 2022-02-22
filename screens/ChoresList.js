@@ -1,13 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, Button, ImageBackground } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { View, Text, StyleSheet, Button, ImageBackground, } from "react-native";
 import Cards from "../components/ChoresCard";
 import image from "../assets/image.jpeg"
 
 function ChoresListScreen(props) {
   console.log("This is the props", props);
+
   return (
-    <ScrollView>
+    
       <View style={styles.container}>
         <ImageBackground source={image} resizeMode="cover" style={styles.image}>
           <Text>Chores List Screen</Text>
@@ -20,7 +20,7 @@ function ChoresListScreen(props) {
           </View>
         </ImageBackground>
       </View>
-    </ScrollView>
+   
   );
 }
 
