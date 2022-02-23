@@ -5,7 +5,7 @@ import ChoreDetails from "../screens/ChoresDetails.js";
 import HomePage from "../screens/MainScreen.js";
 
 const ChoresNavigator = createStackNavigator({
-  HomePage: { screen: HomePage, params: { info: data} },
+  HomePage:  HomePage ,
   ChoreList: ChoresListScreen,
   ChoreDetails: ChoreDetails,
 });

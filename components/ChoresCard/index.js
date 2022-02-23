@@ -9,62 +9,31 @@ import { collection, getDocs } from "firebase/firestore/lite";
 
 const CardsComponentsProps = {};
 
-function Cards(onClicking) {
+function Cards(dataRecieved) {
   const [data, setData] = useState(false);
+  console.log("This is what the Cards get", dataRecieved.dataRecieved[0]);
+  const parsedData = dataRecieved.dataRecieved[0].user_data.map((el) =>
+    JSON.parse(el)
+  );
+  console.log(parsedData);
+  const {chores, members} = parsedData
 
-  async function getData() {
-    console.log("This function has been fired");
-    const choresCol = collection(db, "MyTribe");
-    const choreSnapshot = await getDocs(choresCol);
-    const choresList = choreSnapshot.docs.map((doc) => doc.data());
-    console.log("This is the data", choresList[0].Description);
-    setData(choresList)
-    return data;
-  }
 
   return (
-    <View>
-
-      <Button title= "get Data" onPress={getData} />
-      {/* {setData === false ? (
-        <Button title="Get Data" onPress={getData} />
-      ) : (
-
-        <View style={styles.container}>
-          {/* {data.map((c, i) => {
-            return (
-              <View key={i} style={styles.main}>
-                <Card style={styles.card}>
-                  <Card.Divider />
-                  <Image
-                    style={styles.image}
-                    resizeMode="cover"
-                    source={c.ImageUrl}
-                  />
-                  <Text style={styles.fonts} h2>
-                    {c.chores.map((t) => {
-                      return t;
-                    })}
-                  </Text>
-                  <Text style={styles.fonts} h4>
-                    {c.family_member((m) => {
-                      return m;
-                    })}
-                  </Text>
-                  <Text style={styles.text}>{c.DueDate}</Text>
-                  <Text style={styles.text}>
-                    {c.Description.map((m) => {
-                      return m;
-                    })}
-                  </Text>
-                  <Button
-                    key={i}
-                    title="Click to read more"
-                    onPress={onClicking.onClicking}
-                  />
-                </Card> */}
-              </View>
-        
+    <View style={styles.container}>
+      <Card style={styles.card}>
+        <Card.Divider />
+        <Text style={styles.fonts} h2>
+          {parsedData[0].chores[0].title}
+        </Text>
+        <Text style={styles.fonts} h4>
+          {parsedData[0].members[0].name}
+        </Text>
+        <Text style={styles.text}>{parsedData[0].chores[0].description}</Text>
+        <Text style={styles.text}>{parsedData[0].chores[0].dueDate}</Text>
+        <Button title="Click to read more" />
+      </Card>
+    </View>
   );
 }
 

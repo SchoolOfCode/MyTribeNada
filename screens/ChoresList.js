@@ -6,24 +6,22 @@ import image from "../assets/image.jpeg"
 // let dataRecieved = props.route.params.data
 
 function ChoresListScreen(props) {
+console.log("this is the ChoresListScreen props", props)
 
-const {info} = props.route.params
-console.log(info)
   return (
-    
-      <View style={styles.container}>
-        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-          <Text>Chores List Screen</Text>
-          <View>
-            <Cards 
-              onClicking={() => {
-                props.navigation.navigate({ routeName: "ChoreDetails" });
-              }}
-            />
-          </View>
-        </ImageBackground>
-      </View>
-   
+    <View style={styles.container}>
+      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+        <Text>Chores List Screen</Text>
+        <View>
+          <Cards
+            dataRecieved={props.navigation.getParam("info")}
+            onClicking={() => {
+              props.navigation.navigate({ routeName: "ChoreDetails" });
+            }}
+          />
+        </View>
+      </ImageBackground>
+    </View>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import image from "../assets/image.jpeg";
 import {
   StyleSheet,
@@ -20,7 +20,7 @@ import { db } from "../firebase/firebase-config";
 import { collection, getDocs } from "firebase/firestore/lite";
 
 function HomePage(props) {
-  console.log("This is homepage prop", props);
+  console.log("This is homepageScreen prop", props);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignedin, setIsSignedin] = useState(false);
@@ -32,14 +32,15 @@ function HomePage(props) {
     const choreSnapshot = await getDocs(choresCol);
     const choresList = choreSnapshot.docs.map((doc) => doc.data());
     setData(choresList);
-    console.log("This is the data recieved:", data);
-    props.navigation.navigate({ routeName: "ChoreList" }, {info: data});
+    props.navigation.setParams({ routeName: "ChoreList" });
+    props.navigation.navigate( "ChoreList" , {info:choresList}) ;
     return data;
   }
 
   const SigninUser = () => {
     signInWithEmailAndPassword(authentication, email, password)
       .then((re) => {
+        console.log(re)
         setIsSignedin(true);
       })
       .catch((error) => console.log(error));
