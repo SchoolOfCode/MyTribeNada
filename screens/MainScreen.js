@@ -79,7 +79,9 @@ function HomePage(props) {
                 <Button
                   title="Go to your chores"
                   style={{ paddingHorizontal: 100, borderRadius: 10 }}
-                  onPress={getData}
+                  onPress={props.navigation.navigate({
+                    routeName: "ChoreList",
+                  })}
                 />
                 <Button
                   title="Log out"

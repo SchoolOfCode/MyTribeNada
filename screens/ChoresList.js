@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet, Button, ImageBackground, } from "react-native";
+import { View, Text, StyleSheet, Button, ImageBackground } from "react-native";
 import Cards from "../components/ChoresCard";
-import image from "../assets/image.jpeg"
+import image from "../assets/image.jpeg";
 
 // let dataRecieved = props.route.params.data
 
